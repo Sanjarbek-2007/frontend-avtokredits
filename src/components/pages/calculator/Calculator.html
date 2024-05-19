@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kredit Kalkulyatori</title>
+</head>
+<body>
+<h2>Kredit Kalkulyatori</h2>
+<form id="loanCalculator">
+    <label for="loanAmount">Kredit miqdorini kiriting:</label>
+    <input type="number" id="loanAmount" name="loanAmount" required><br><br>
+
+    <label for="loanTerm">Kredit muddati (oylarda):</label>
+    <input type="number" id="loanTerm" name="loanTerm" required><br><br>
+
+    <label for="interestRate">Foiz daromadi:</label>
+    <input type="number" id="interestRate" name="interestRate" step="0.01" required><br><br>
+
+    <label for="loanType">Kredit turi:</label>
+    <select id="loanType" name="loanType">
+        <option value="mortgage">Ipoteka</option>
+        <option value="car">Avtokredit</option>
+    </select><br><br>
+
+    <label for="annuity">Annuitet:</label>
+    <input type="number" id="annuity" name="annuity"><br><br>
+
+    <label for="insuranceCosts">Stahovka qimati:</label>
+    <input type="number" id="insuranceCosts" name="insuranceCosts"><br><br>
+
+    <label for="collateralValuationCosts">Qarz qimati baholash:</label>
+    <input type="number" id="collateralValuationCosts" name="collateralValuationCosts"><br><br>
+
+    <button type="button" onclick="calculateLoan()">Hisoblash</button>
+</form>
+
+<div id="result"></div>
+
+<script>
+    function calculateLoan() {
+        var loanAmount = parseFloat(document.getElementById('loanAmount').value);
+        var loanTerm = parseFloat(document.getElementById('loanTerm').value);
+        var interestRate = parseFloat(document.getElementById('interestRate').value);
+        var loanType = document.getElementById('loanType').value;
+        var annuity = parseFloat(document.getElementById('annuity').value);
+        var insuranceCosts = parseFloat(document.getElementById('insuranceCosts').value);
+        var collateralValuationCosts = parseFloat(document.getElementById('collateralValuationCosts').value);
+        document.getElementById('result').innerHTML = "Sizing hisoblangan natijangiz";
+    }
+</script>
+</body>
+</html>
