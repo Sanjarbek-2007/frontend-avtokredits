@@ -6,10 +6,11 @@ import Calculator from "./components/pages/calculator/Calculator";
 import AuthSuccess from "./components/success/AuthSuccess";
 import About from "./components/pages/about/About";
 import Upload from "./components/pages/cars/upload/Upload";
-import Post from "./components/pages/cars/Post";
+import Post from "./components/pages/cars/previous/Post";
 import ApplicationPage from "./components/pages/applications/ApplicationPage";
 import './components/pages/home/Home.css';
 import logo from "./components/images/logo.png";
+import PostsComponent from "./components/pages/cars/PostsComponent";
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -101,6 +102,7 @@ const App = () => {
     backButton.style.display = "none";
   };
 
+
   return (
       <div>
         <div className="navbar">
@@ -130,7 +132,8 @@ const App = () => {
         <BrowserRouter>
           <Routes>
             <Route path="/payments" element={<PaymentTimeTable/>}/>
-            <Route path="/cars" element={<Post/>}/>
+            {/*<Route path="/cars" element={<Post/>}/>*/}
+            <Route path="/cars" element={<PostsComponent/>}/>
             <Route path="/upload" element={<Upload/>}/>
             <Route path="/about" element={<About/>}/>
             <Route path="/calculator" element={<Calculator/>}/>
