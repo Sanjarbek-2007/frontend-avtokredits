@@ -73,6 +73,10 @@ const App = () => {
     window.location.href = '/application';
   };
 
+  const showCalculator = () => {
+    window.location.href = '/calculator'
+  }
+
   const searchImages = () => {
     const input = document.querySelector('.search-input').value.toLowerCase();
     const imageContainers = document.querySelectorAll('.image-container');
@@ -99,10 +103,17 @@ const App = () => {
     backButton.style.display = "inline-block";
   };
 
-  const openAddListingForm = () => {
-    window.location.href = '/upload';
-  };
+  // const openAddListingForm = () => {
+  //       window.location.href = '/upload';
+  // };
 
+  const openAddListingForm = () => {
+    if (role === 'ADMIN') {
+      window.location.href = '/upload';
+    } else {
+      alert('Faqat administratorlar bu joyni ko\'ra oladi');
+    }
+  };
 
 
   const showAll = () => {
@@ -127,7 +138,7 @@ const App = () => {
           <button className="navbar-button" onClick={showCompanyInfo}>AvtoKredits haqida ko'proq</button>
           <button className="navbar-button" onClick={showAllCars}>AvtoKredits Mashinalar</button>
           <button className="navbar-button" onClick={showFavorites}>Sevimlilar</button>
-          {/*<button className="navbar-button" onClick={showAllPaymentTime}>To'lov vaqti</button>*/}
+          <button className="navbar-button" onClick={showAllPaymentTime}>To'lov vaqti</button>
           {/*<button className="navbar-button" onClick={showApplications}>Zayavka berish</button>*/}
           {/*<button className="navbar-button back-button" id="backButton" onClick={showAll}>Orqaga</button>*/}
 
@@ -161,7 +172,8 @@ const App = () => {
             <div className="additional-menu-container">
               <div className="additional-menu">
                 <button className="additional-menu-button" onClick={showAllPaymentTime}>To'lov vaqti</button>
-                <button className="additional-menu-button" onClick={showApplications}>Zayavka berish</button>
+                <button className="additional-menu-button" onClick={showApplications}>Ariza berish</button>
+                <button className="additional-menu-button" onClick={showCalculator}>Kredit Hisoblash</button>
                 {isLoggedIn && role === 'ADMIN' && (
                     <button className="additional-menu-button" onClick={openAddListingForm}>E'lon berish</button>
                 )}
@@ -169,9 +181,8 @@ const App = () => {
             </div>
         )}
 
-        {/* Кнопка для отображения/скрытия дополнительного меню */}
         <button className="additional-menu-toggle" onClick={toggleAdditionalMenu}>
-          {showAdditionalMenu ? "Hide Menu" : "Show Menu"}
+          {showAdditionalMenu ? "Menuni yopish" : "Menyuni ochish"}
         </button>
 
         <BrowserRouter>
@@ -179,7 +190,9 @@ const App = () => {
             <Route path="/payments" element={<PaymentTimeTable/>}/>
             {/*<Route path="/cars" element={<Post/>}/>*/}
             <Route path="/cars" element={<PostsComponent/>}/>
-            <Route path="/upload" element={<Upload/>}/>
+            {isLoggedIn && role ==='ADMIN' &&(
+                <Route path="/upload" element={<Upload />} />
+            )}
             <Route path="/about" element={<About/>}/>
             <Route path="/calculator" element={<Calculator/>}/>
             <Route path="/auth" element={<Auth onAuth={handleAuth}/>}/>

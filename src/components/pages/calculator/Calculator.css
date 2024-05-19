@@ -1,26 +1,28 @@
-/* LoanCalculator.css */
+/* Calculator.css */
+
 .loan-calculator-container {
-    max-width: 500px;
+    max-width: 600px; /* Увеличили максимальную ширину контейнера */
     margin: 0 auto;
     padding: 20px;
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 10px; /* Увеличили радиус скругления границ контейнера */
     background-color: #f9f9f9;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1); /* Увеличили размытие тени */
 }
 
 h2 {
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 30px; /* Увеличили отступ снизу заголовка */
 }
 
 .loan-form {
     display: flex;
     flex-direction: column;
+    gap: 20px; /* Добавили промежуток между элементами формы */
 }
 
 .form-control {
-    margin-bottom: 15px;
+    margin-bottom: 20px;
 }
 
 label {
@@ -30,7 +32,7 @@ label {
 input[type="number"],
 select {
     width: 100%;
-    padding: 8px;
+    padding: 10px; /* Увеличили внутренний отступ в полях ввода */
     border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 16px;
@@ -38,13 +40,14 @@ select {
 
 button {
     width: 100%;
-    padding: 10px;
+    padding: 12px; /* Увеличили внутренний отступ в кнопке */
     border: none;
     border-radius: 5px;
     background-color: #007bff;
     color: #fff;
     font-size: 16px;
     cursor: pointer;
+    transition: background-color 0.3s; /* Добавили плавное изменение цвета при наведении */
 }
 
 button:hover {
@@ -52,9 +55,25 @@ button:hover {
 }
 
 .result {
-    margin-top: 20px;
-    padding: 10px;
+    margin-top: 30px; /* Увеличили отступ сверху результата */
+    padding: 20px; /* Увеличили внутренний отступ результата */
     border: 1px solid #ccc;
     border-radius: 5px;
     background-color: #f0f0f0;
+    overflow-x: auto; /* Добавили горизонтальную прокрутку для таблицы результатов */
+}
+
+table {
+    width: 100%; /* Растягиваем таблицу на всю ширину контейнера */
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 10px; /* Увеличили внутренний отступ ячеек таблицы */
+    border: 1px solid #ccc;
+    text-align: center;
+}
+
+th {
+    background-color: #f0f0f0; /* Цвет фона для заголовков таблицы */
 }
