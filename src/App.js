@@ -100,8 +100,10 @@ const App = () => {
   };
 
   const openAddListingForm = () => {
-        window.location.href = '/upload';
+    window.location.href = '/upload';
   };
+
+
 
   const showAll = () => {
     const imageContainers = document.querySelectorAll('.image-container');
@@ -125,7 +127,7 @@ const App = () => {
           <button className="navbar-button" onClick={showCompanyInfo}>AvtoKredits haqida ko'proq</button>
           <button className="navbar-button" onClick={showAllCars}>AvtoKredits Mashinalar</button>
           <button className="navbar-button" onClick={showFavorites}>Sevimlilar</button>
-          <button className="navbar-button" onClick={showAllPaymentTime}>To'lov vaqti</button>
+          {/*<button className="navbar-button" onClick={showAllPaymentTime}>To'lov vaqti</button>*/}
           {/*<button className="navbar-button" onClick={showApplications}>Zayavka berish</button>*/}
           {/*<button className="navbar-button back-button" id="backButton" onClick={showAll}>Orqaga</button>*/}
 
