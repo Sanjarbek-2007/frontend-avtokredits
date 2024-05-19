@@ -6,7 +6,7 @@ import Calculator from "./components/pages/calculator/Calculator";
 import AuthSuccess from "./components/success/AuthSuccess";
 import About from "./components/pages/about/About";
 import Upload from "./components/pages/cars/upload/Upload";
-import Post from "./components/pages/cars/previous/Post";
+// import Post from "./components/pages/cars/previous/Post";
 import ApplicationPage from "./components/pages/applications/ApplicationPage";
 import './components/pages/home/Home.css';
 import logo from "./components/images/logo.png";
@@ -18,14 +18,24 @@ const App = () => {
   const [role, setRole] = useState('');
 
   useEffect(() => {
-    const storedUsername = localStorage.getItem('username');
-    const storedRole = localStorage.getItem('role');
-    if (storedUsername) {
+    const token = localStorage.getItem('accessToken');
+    if (token) {
+      const decodedToken = parseJwt(token);
+      const userRole = decodedToken.roles;
       setIsLoggedIn(true);
-      setUsername(storedUsername);
-      setRole(storedRole);
+      setUsername(decodedToken.sub);
+      setRole(userRole);
     }
   }, []);
+
+  const parseJwt = (token) => {
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+    return JSON.parse(jsonPayload);
+  };
 
   const handleAuth = (username, role) => {
     setIsLoggedIn(true);
@@ -35,8 +45,6 @@ const App = () => {
 
   const handleLogout = () => {
     localStorage.removeItem('accessToken');
-    localStorage.removeItem('username');
-    localStorage.removeItem('role');
     setIsLoggedIn(false);
     setUsername('');
     setRole('');
@@ -115,12 +123,16 @@ const App = () => {
           <button className="navbar-button" onClick={showAllPaymentTime}>To'lov vaqti</button>
           <button className="navbar-button" onClick={showApplications}>Zayavka berish</button>
           <button className="navbar-button back-button" id="backButton" onClick={showAll}>Orqaga</button>
-          <button className="navbar-button" onClick={openAddListingForm}>E'lon berish</button>
+
+          {isLoggedIn && role === 'ADMIN' && (
+              <button className="navbar-button" onClick={openAddListingForm}>E'lon berish</button>
+          )}
           <div className="navbar-search">
             <input type="text" className="search-input" placeholder="" onInput={searchImages}/>
             {isLoggedIn ? (
                 <>
-                  <span className="navbar-username">{username}</span>
+                  {/*<span className="navbar-username">{username}</span>*/}
+                  <a href="#" className="navbar-button">{username}</a>
                   <button className="navbar-button" onClick={handleLogout}>Logout</button>
                 </>
             ) : (

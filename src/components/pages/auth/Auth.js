@@ -39,6 +39,8 @@ const Auth = ({ onAuth }) => {
             localStorage.setItem('username', username);
             localStorage.setItem('role', role);
 
+            console.log(role); // Добавляем эту строку для отладки
+
             onAuth(username, role);
 
             window.location.href = '/success';
@@ -46,6 +48,7 @@ const Auth = ({ onAuth }) => {
             console.error('There was a problem with the fetch operation:', error);
         }
     };
+
 
     return (
         <div className="auth-container">
