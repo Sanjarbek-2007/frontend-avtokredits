@@ -2,6 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import './PostsComponent.css'; // Add your styles here
 
+
+
+
+
 const PostsComponent = () => {
     const [posts, setPosts] = useState([]);
 
@@ -11,28 +15,14 @@ const PostsComponent = () => {
             .then(data => setPosts(data))
             .catch(error => console.error('Error fetching posts:', error));
     }, []);
-    // useEffect(() => {
-    //     // Fetch image data from backend
-    //     fetch('http://localhost:8080/images/'+post.filename)
-    //         .then(response => {
-    //             if (!response.ok) {
-    //                 throw new Error('Failed to fetch image');
-    //             }
-    //             return response.blob();
-    //         })
-    //         .then(blob => {
-    //             // Convert blob to data URL
-    //             const objectURL = URL.createObjectURL(blob);
-    //             setImageSrc(objectURL);
-    //         })
-    //         .catch(error => console.error('Error fetching image:', error));
-    // }, []);
+
+
 
 
     return (
         <div className="posts-container">
             {posts.map(post => {
-                var getPhoto = `http://localhost:8080/images/${post.filename}`;
+                const getPhoto = `http://localhost:8080/images/${post.id}`;
                 return (
                     <div className="post-card" key={post.id}>
                         <h2>{post.title}</h2>
