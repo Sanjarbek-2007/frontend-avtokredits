@@ -16,6 +16,8 @@ const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [username, setUsername] = useState('');
   const [role, setRole] = useState('');
+  const [showAdditionalMenu, setShowAdditionalMenu] = useState(false); // Объявляем состояние для отображения дополнительного меню
+
 
   useEffect(() => {
     const token = localStorage.getItem('accessToken');
@@ -98,7 +100,7 @@ const App = () => {
   };
 
   const openAddListingForm = () => {
-    window.location.href = '/upload';
+        window.location.href = '/upload';
   };
 
   const showAll = () => {
@@ -110,6 +112,9 @@ const App = () => {
     backButton.style.display = "none";
   };
 
+  const toggleAdditionalMenu = () => {
+    setShowAdditionalMenu(!showAdditionalMenu); // Изменение состояния отображения дополнительного меню
+  };
 
   return (
       <div>
@@ -121,12 +126,22 @@ const App = () => {
           <button className="navbar-button" onClick={showAllCars}>AvtoKredits Mashinalar</button>
           <button className="navbar-button" onClick={showFavorites}>Sevimlilar</button>
           <button className="navbar-button" onClick={showAllPaymentTime}>To'lov vaqti</button>
-          <button className="navbar-button" onClick={showApplications}>Zayavka berish</button>
-          <button className="navbar-button back-button" id="backButton" onClick={showAll}>Orqaga</button>
+          {/*<button className="navbar-button" onClick={showApplications}>Zayavka berish</button>*/}
+          {/*<button className="navbar-button back-button" id="backButton" onClick={showAll}>Orqaga</button>*/}
 
-          {isLoggedIn && role === 'ADMIN' && (
-              <button className="navbar-button" onClick={openAddListingForm}>E'lon berish</button>
-          )}
+          {/*{isLoggedIn && role === 'ADMIN' && (*/}
+          {/*    <button className="navbar-button" onClick={openAddListingForm}>E'lon berish</button>*/}
+          {/*)}*/}
+          {/*<button className="navbar-button" onClick={toggleAdditionalMenu}>Menu</button> /!* Кнопка для отображения/скрытия дополнительного меню *!/*/}
+          {/*{showAdditionalMenu && ( // Показывать дополнительное меню только если showAdditionalMenu равен true*/}
+          {/*    <>*/}
+          {/*      <button className="navbar-button" onClick={showAllPaymentTime}>To'lov vaqti</button>*/}
+          {/*      <button className="navbar-button" onClick={showApplications}>Zayavka berish</button>*/}
+          {/*      {isLoggedIn && role === 'ADMIN' && (*/}
+          {/*          <button className="navbar-button" onClick={openAddListingForm}>E'lon berish</button>*/}
+          {/*      )}*/}
+          {/*    </>*/}
+          {/*)}*/}
           <div className="navbar-search">
             <input type="text" className="search-input" placeholder="" onInput={searchImages}/>
             {isLoggedIn ? (
@@ -140,6 +155,22 @@ const App = () => {
             )}
           </div>
         </div>
+        {showAdditionalMenu && (
+            <div className="additional-menu-container">
+              <div className="additional-menu">
+                <button className="additional-menu-button" onClick={showAllPaymentTime}>To'lov vaqti</button>
+                <button className="additional-menu-button" onClick={showApplications}>Zayavka berish</button>
+                {isLoggedIn && role === 'ADMIN' && (
+                    <button className="additional-menu-button" onClick={openAddListingForm}>E'lon berish</button>
+                )}
+              </div>
+            </div>
+        )}
+
+        {/* Кнопка для отображения/скрытия дополнительного меню */}
+        <button className="additional-menu-toggle" onClick={toggleAdditionalMenu}>
+          {showAdditionalMenu ? "Hide Menu" : "Show Menu"}
+        </button>
 
         <BrowserRouter>
           <Routes>
@@ -154,6 +185,8 @@ const App = () => {
             <Route path="/application" element={<ApplicationPage username={username} role={role} />} />
           </Routes>
         </BrowserRouter>
+
+
       </div>
   );
 };
