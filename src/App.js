@@ -99,10 +99,17 @@ const App = () => {
     backButton.style.display = "inline-block";
   };
 
-  const openAddListingForm = () => {
-        window.location.href = '/upload';
-  };
+  // const openAddListingForm = () => {
+  //       window.location.href = '/upload';
+  // };
 
+  const openAddListingForm = () => {
+    if (role === 'ADMIN') {
+      window.location.href = '/upload';
+    } else {
+      alert('Фақат администратор бу саҳифани очиш мумкин.');
+    }
+  };
 
 
   const showAll = () => {
@@ -169,9 +176,8 @@ const App = () => {
             </div>
         )}
 
-        {/* Кнопка для отображения/скрытия дополнительного меню */}
         <button className="additional-menu-toggle" onClick={toggleAdditionalMenu}>
-          {showAdditionalMenu ? "Hide Menu" : "Show Menu"}
+          {showAdditionalMenu ? "Менюни ёпиш" : "Менюни кўрсатиш"}
         </button>
 
         <BrowserRouter>
@@ -179,7 +185,9 @@ const App = () => {
             <Route path="/payments" element={<PaymentTimeTable/>}/>
             {/*<Route path="/cars" element={<Post/>}/>*/}
             <Route path="/cars" element={<PostsComponent/>}/>
-            <Route path="/upload" element={<Upload/>}/>
+            {isLoggedIn && role ==='ADMIN' &&(
+            <Route path="/upload" element={<Upload />} />
+            )}
             <Route path="/about" element={<About/>}/>
             <Route path="/calculator" element={<Calculator/>}/>
             <Route path="/auth" element={<Auth onAuth={handleAuth}/>}/>
