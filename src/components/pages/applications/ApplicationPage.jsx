@@ -117,7 +117,7 @@ const ApplicationPage = ({ username, role }) => {
             </div>
 
             <div className="container">
-                <h1>Zayavka</h1>
+                <h1>Arizalar</h1>
                 <ul>
                     {applications.map(application => (
                         <li key={application.id}>

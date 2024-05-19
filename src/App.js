@@ -73,6 +73,10 @@ const App = () => {
     window.location.href = '/application';
   };
 
+  const showCalculator = () => {
+    window.location.href = '/calculator'
+  }
+
   const searchImages = () => {
     const input = document.querySelector('.search-input').value.toLowerCase();
     const imageContainers = document.querySelectorAll('.image-container');
@@ -168,7 +172,8 @@ const App = () => {
             <div className="additional-menu-container">
               <div className="additional-menu">
                 <button className="additional-menu-button" onClick={showAllPaymentTime}>To'lov vaqti</button>
-                <button className="additional-menu-button" onClick={showApplications}>Zayavka berish</button>
+                <button className="additional-menu-button" onClick={showApplications}>Ariza berish</button>
+                <button className="additional-menu-button" onClick={showCalculator}>Kredit Hisoblash</button>
                 {isLoggedIn && role === 'ADMIN' && (
                     <button className="additional-menu-button" onClick={openAddListingForm}>E'lon berish</button>
                 )}
