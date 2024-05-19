@@ -103,6 +103,8 @@ const App = () => {
         window.location.href = '/upload';
   };
 
+
+
   const showAll = () => {
     const imageContainers = document.querySelectorAll('.image-container');
     const backButton = document.getElementById('backButton');
