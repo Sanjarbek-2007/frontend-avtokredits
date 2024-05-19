@@ -111,7 +111,9 @@ const App = () => {
     if (role === 'ADMIN') {
       window.location.href = '/upload';
     } else {
-      alert('Фақат администратор бу саҳифани очиш мумкин.');
+
+      alert('Faqat administratorlar bu joyni ko\'ra oladi');
+
     }
   };
 
@@ -182,7 +184,9 @@ const App = () => {
         )}
 
         <button className="additional-menu-toggle" onClick={toggleAdditionalMenu}>
-          {showAdditionalMenu ? "Менюни ёпиш" : "Менюни кўрсатиш"}
+
+          {showAdditionalMenu ? "Menuni yopish" : "Menyuni ochish"}
+
         </button>
 
         <BrowserRouter>
@@ -191,7 +195,10 @@ const App = () => {
             {/*<Route path="/cars" element={<Post/>}/>*/}
             <Route path="/cars" element={<PostsComponent/>}/>
             {isLoggedIn && role ==='ADMIN' &&(
+
+
             <Route path="/upload" element={<Upload />} />
+
             )}
             <Route path="/about" element={<About/>}/>
             <Route path="/calculator" element={<Calculator/>}/>
