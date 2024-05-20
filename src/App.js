@@ -11,6 +11,7 @@ import './components/pages/home/Home.css';
 import logo from "./components/images/logo.png";
 import PostsComponent from "./components/pages/cars/PostsComponent";
 import PostDetailComponent from "./components/pages/cars/PostDetailComponent";
+import ApplicationUpload from "./components/pages/applications/upload/ApplicationUpload";
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -152,6 +153,8 @@ const App = () => {
             <Route path="/auth" element={<Auth onAuth={handleAuth}/>}/>
             <Route path="/success" element={<AuthSuccess/>}/>
             <Route path="/application" element={<ApplicationPage username={username} role={role} />} />
+            <Route path="/uploadApp/:postId" element={<ApplicationUpload username={username} role={role} />} />
+
           </Routes>
         </div>
       </BrowserRouter>
