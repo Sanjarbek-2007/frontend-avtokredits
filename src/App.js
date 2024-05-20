@@ -10,12 +10,13 @@ import ApplicationPage from "./components/pages/applications/ApplicationPage";
 import './components/pages/home/Home.css';
 import logo from "./components/images/logo.png";
 import PostsComponent from "./components/pages/cars/PostsComponent";
+import PostDetailComponent from "./components/pages/cars/PostDetailComponent";
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [username, setUsername] = useState('');
   const [role, setRole] = useState('');
-  const [showAdditionalMenu, setShowAdditionalMenu] = useState(false); // Объявляем состояние для отображения дополнительного меню
+  const [showAdditionalMenu, setShowAdditionalMenu] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem('accessToken');
@@ -79,13 +80,26 @@ const App = () => {
     const input = document.querySelector('.search-input').value.toLowerCase();
     const imageContainers = document.querySelectorAll('.image-container');
     imageContainers.forEach(container => {
-      const titleText = container.querySelector('img').title.toLowerCase();
-      if (titleText.includes(input)) {
+      const altText = container.querySelector('img').alt.toLowerCase();
+      if (altText.includes(input)) {
         container.style.display = "inline-block";
       } else {
         container.style.display = "none";
       }
     });
+  };
+
+  const showFavorites = () => {
+    const imageContainers = document.querySelectorAll('.image-container');
+    const backButton = document.getElementById('backButton');
+    imageContainers.forEach(container => {
+      if (container.classList.contains('favorite')) {
+        container.style.display = "inline-block";
+      } else {
+        container.style.display = "none";
+      }
+    });
+    backButton.style.display = "inline-block";
   };
 
   const openAddListingForm = () => {
@@ -96,51 +110,62 @@ const App = () => {
     }
   };
 
+  const showAll = () => {
+    const imageContainers = document.querySelectorAll('.image-container');
+    const backButton = document.getElementById('backButton');
+    imageContainers.forEach(container => {
+      container.style.display = "inline-block";
+    });
+    backButton.style.display = "none";
+  };
 
   const toggleAdditionalMenu = () => {
     setShowAdditionalMenu(!showAdditionalMenu);
   };
 
   return (
-      <div>
-        <div className="navbar">
-          <a href="#" className="navbar-logo" onClick={home}>
-            <img src={logo} alt="Mashina Galereya"/>
-          </a>
-          <button className="navbar-button" onClick={showCompanyInfo}>AvtoKredits haqida ko'proq</button>
-          <button className="navbar-button" onClick={showAllCars}>AvtoKredits Mashinalar</button>
-          <button className="additional-menu-button" onClick={showCalculator}>Kredit Hisoblash</button>
+      <BrowserRouter>
+        <div>
+          <div className="navbar">
+            <a href="#" className="navbar-logo" onClick={home}>
+              <img src={logo} alt="Mashina Galereya"/>
+            </a>
+            <button className="navbar-button" onClick={showCompanyInfo}>AvtoKredits haqida ko'proq</button>
+            <button className="navbar-button" onClick={showAllCars}>AvtoKredits Mashinalar</button>
+            <button className="navbar-button" onClick={showFavorites}>Sevimlilar</button>
+            <button className="navbar-button" onClick={showAllPaymentTime}>To'lov vaqti</button>
 
-          <div className="navbar-search">
-            <input type="text" className="search-input" placeholder="" onInput={searchImages}/>
-            {isLoggedIn ? (
-                <>
-                  <a href="#" className="navbar-button">{username}</a>
-                  <button className="navbar-button" onClick={handleLogout}>Logout</button>
-                </>
-            ) : (
-                <a href="Auth" className="navbar-login-button">Login</a>
-            )}
-          </div>
-        </div>
-        {showAdditionalMenu && (
-            <div className="additional-menu-container">
-              <div className="additional-menu">
-                <button className="navbar-button" onClick={showAllPaymentTime}>To'lov vaqti</button>
-                {isLoggedIn && role === 'ADMIN' && (
-                    <button className="additional-menu-button" onClick={openAddListingForm}>E'lon berish</button>
-                )}
-              </div>
+            <div className="navbar-search">
+              <input type="text" className="search-input" placeholder="" onInput={searchImages}/>
+              {isLoggedIn ? (
+                  <>
+                    <a href="#" className="navbar-button">{username}</a>
+                    <button className="navbar-button" onClick={handleLogout}>Logout</button>
+                  </>
+              ) : (
+                  <a href="Auth" className="navbar-login-button">Login</a>
+              )}
             </div>
-        )}
+          </div>
+          {showAdditionalMenu && (
+              <div className="additional-menu-container">
+                <div className="additional-menu">
+                  <button className="additional-menu-button" onClick={showAllPaymentTime}>To'lov vaqti</button>
+                  <button className="additional-menu-button" onClick={showApplications}>Ariza berish</button>
+                  <button className="additional-menu-button" onClick={showCalculator}>Kredit Hisoblash</button>
+                  {isLoggedIn && role === 'ADMIN' && (
+                      <button className="additional-menu-button" onClick={openAddListingForm}>E'lon berish</button>
+                  )}
+                </div>
+              </div>
+          )}
+          <button className="additional-menu-toggle" onClick={toggleAdditionalMenu}>
+            {showAdditionalMenu ? "Menuni yopish" : "Menyuni ochish"}
+          </button>
 
-        <button className="additional-menu-toggle" onClick={toggleAdditionalMenu}>
-          {showAdditionalMenu ? "Menuni yopish" : "Menyuni ochish"}
-        </button>
-
-        <BrowserRouter>
           <Routes>
             <Route path="/payments" element={<PaymentTimeTable/>}/>
+            <Route path="/posts/:id" element={<PostDetailComponent/>}/>
             <Route path="/cars" element={<PostsComponent/>}/>
             {isLoggedIn && role === 'ADMIN' && (
                 <Route path="/upload" element={<Upload />} />
@@ -151,8 +176,8 @@ const App = () => {
             <Route path="/success" element={<AuthSuccess/>}/>
             <Route path="/application" element={<ApplicationPage username={username} role={role} />} />
           </Routes>
-        </BrowserRouter>
-      </div>
+        </div>
+      </BrowserRouter>
   );
 };
 
