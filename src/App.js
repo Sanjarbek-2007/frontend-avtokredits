@@ -80,8 +80,8 @@ const App = () => {
     const input = document.querySelector('.search-input').value.toLowerCase();
     const imageContainers = document.querySelectorAll('.image-container');
     imageContainers.forEach(container => {
-      const altText = container.querySelector('img').alt.toLowerCase();
-      if (altText.includes(input)) {
+      const titleText = container.querySelector('img').title.toLowerCase();
+      if (titleText.includes(input)) {
         container.style.display = "inline-block";
       } else {
         container.style.display = "none";
@@ -89,18 +89,7 @@ const App = () => {
     });
   };
 
-  const showFavorites = () => {
-    const imageContainers = document.querySelectorAll('.image-container');
-    const backButton = document.getElementById('backButton');
-    imageContainers.forEach(container => {
-      if (container.classList.contains('favorite')) {
-        container.style.display = "inline-block";
-      } else {
-        container.style.display = "none";
-      }
-    });
-    backButton.style.display = "inline-block";
-  };
+
 
   const openAddListingForm = () => {
     if (role === 'ADMIN') {
@@ -109,19 +98,10 @@ const App = () => {
       alert('Faqat administratorlar bu joyni ko\'ra oladi');
     }
   };
-
-  const showAll = () => {
-    const imageContainers = document.querySelectorAll('.image-container');
-    const backButton = document.getElementById('backButton');
-    imageContainers.forEach(container => {
-      container.style.display = "inline-block";
-    });
-    backButton.style.display = "none";
-  };
-
   const toggleAdditionalMenu = () => {
     setShowAdditionalMenu(!showAdditionalMenu);
   };
+
 
   return (
       <BrowserRouter>
@@ -132,8 +112,7 @@ const App = () => {
             </a>
             <button className="navbar-button" onClick={showCompanyInfo}>AvtoKredits haqida ko'proq</button>
             <button className="navbar-button" onClick={showAllCars}>AvtoKredits Mashinalar</button>
-            <button className="navbar-button" onClick={showFavorites}>Sevimlilar</button>
-            <button className="navbar-button" onClick={showAllPaymentTime}>To'lov vaqti</button>
+            <button className="additional-menu-button" onClick={showCalculator}>Kredit Hisoblash</button>
 
             <div className="navbar-search">
               <input type="text" className="search-input" placeholder="" onInput={searchImages}/>
@@ -151,9 +130,7 @@ const App = () => {
               <div className="additional-menu-container">
                 <div className="additional-menu">
                   <button className="additional-menu-button" onClick={showAllPaymentTime}>To'lov vaqti</button>
-                  <button className="additional-menu-button" onClick={showApplications}>Ariza berish</button>
-                  <button className="additional-menu-button" onClick={showCalculator}>Kredit Hisoblash</button>
-                  {isLoggedIn && role === 'ADMIN' && (
+                 {isLoggedIn && role === 'ADMIN' && (
                       <button className="additional-menu-button" onClick={openAddListingForm}>E'lon berish</button>
                   )}
                 </div>
