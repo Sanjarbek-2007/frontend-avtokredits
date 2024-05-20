@@ -5,9 +5,11 @@ import './PostDetailComponent.css';
 const PostDetailComponent = () => {
     const { id } = useParams();
     const [post, setPost] = useState(null);
+    const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
 
     useEffect(() => {
-        fetch(`/posts/${id}`)
+        // Fetch post details
+        fetch(`http://localhost:8080/posts/${id}`)
             .then(response => response.json())
             .then(data => setPost(data))
             .catch(error => console.error('Error fetching post:', error));
@@ -16,26 +18,51 @@ const PostDetailComponent = () => {
     if (!post) {
         return <div>Loading...</div>;
     }
+
+    const handleNextPhoto = () => {
+        setCurrentPhotoIndex((prevIndex) => (prevIndex + 1) % post.photoIds.length);
+    };
+
+    const handlePrevPhoto = () => {
+        setCurrentPhotoIndex((prevIndex) => (prevIndex - 1 + post.photoIds.length) % post.photoIds.length);
+    };
+
     const handleApply = () => {
-        window.location.href = '/application'
-    }
+        window.location.href = '/application';
+    };
+
     return (
         <div className="post-detail-container">
-            <h1>{post.title}</h1>
-            <img src={post.path} alt={post.photoName}/>
-            <p><strong>Car Brand:</strong> {post.carBrand}</p>
-            <p><strong>Car Model:</strong> {post.carModel}</p>
-            <p><strong>Credit Months:</strong> {post.creditMonthCount}</p>
-            <p><strong>Amount:</strong> ${post.amount}</p>
-            <p><strong>Procents:</strong> {post.procents}%</p>
-            <p><strong>Description:</strong> {post.description}</p>
-
-                <button onClick={handleApply}>Подать заявку на авто</button>
-
+            <div className="photo-gallery">
+                {post.photoIds && (
+                    <div className="carousel">
+                        <button className="carousel-button" onClick={handlePrevPhoto}>&#10094;</button>
+                        <img
+                            src={`http://localhost:8080/images/${post.photoIds[currentPhotoIndex]}/one`}
+                            alt={`Photo ${currentPhotoIndex + 1}`}
+                            className="post-photo"
+                        />
+                        <button className="carousel-button" onClick={handleNextPhoto}>&#10095;</button>
+                    </div>
+                )}
+            </div>
+            <h1>{post.carBrand} {post.carModel}</h1>
+            <div className="post-details">
+                <p><strong>Brendi:</strong> {post.carBrand}</p>
+                <p><strong>Modeli:</strong> {post.carModel}</p>
+                <p><strong>Yili:</strong> {post.carYear}</p>
+                <p><strong>Rangi:</strong> {post.carColor}</p>
+                <p><strong>Motor:</strong> {post.carEngine}</p>
+                <p><strong>Karobka:</strong> {post.carGear}</p>
+                <p><strong>Yoqilg'i:</strong> {post.carFuelType}</p>
+                <p><strong>Kreditga oylar:</strong> {post.creditMonthCount}</p>
+                <p><strong>Narxi:</strong> UZS {post.amount}</p>
+                <p><strong>Foizlari:</strong> {post.procents}%</p>
+                <p><strong>Tafsivi:</strong> {post.carContent}</p>
+            </div>
+            <button className="apply-button" onClick={handleApply}>Подать заявку на авто</button>
         </div>
-
-    )
-        ;
+    );
 };
 
 export default PostDetailComponent;
