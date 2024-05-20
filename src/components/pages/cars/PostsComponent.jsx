@@ -27,12 +27,12 @@ const PostsComponent = () => {
                     <div className="post-card" key={post.id}>
                         <h2>{post.title}</h2>
                         <img src={getPhoto} alt={post.fileName}/>
-                        <p><strong>Car Brand:</strong> {post.carBrand}</p>
-                        <p><strong>Car Model:</strong> {post.carModel}</p>
-                        <p><strong>Credit Months:</strong> {post.creditMonthCount}</p>
-                        <p><strong>Amount:</strong> ${post.amount}</p>
-                        <p><strong>Procents:</strong> {post.procents}%</p>
-                        <Link to={`/cars/${post.id}`} className="learn-more-button">Learn More</Link>
+                        <p><strong> Brendi:</strong> {post.carBrand}</p>
+                        <p><strong> Modeli:</strong> {post.carModel}</p>
+                        <p><strong> Credit Oylar:</strong> {post.creditMonthCount}</p>
+                        <p><strong> Narxi:</strong>  UZS {post.amount}</p>
+                        <p><strong> Foizlar:</strong> {post.procents}%</p>
+                        <Link to={`/posts/${post.id}`} className="learn-more-button">Ko'rib chiqish</Link>
                     </div>
                 );
             })}

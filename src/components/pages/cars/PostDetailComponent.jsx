@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import {useLocation, useParams} from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import './PostDetailComponent.css';
 
 const PostDetailComponent = () => {
     const { id } = useParams();
     const [post, setPost] = useState(null);
-    const location = useLocation();
-    // const { post } = location.state;
     const [photos, setPhotos] = useState([]);
 
     useEffect(() => {
@@ -17,12 +15,9 @@ const PostDetailComponent = () => {
             .catch(error => console.error('Error fetching post:', error));
 
         // Fetch photos
-        fetch(`http://localhost:8080/images${id}/photos`)
+        fetch(`http://localhost:8080/images/${id}/all`)
             .then(response => response.json())
-            .then(data => {
-                const photoUrls = data.map((photo, index) => `/images/${id}/photos`);
-                setPhotos(photoUrls);
-            })
+            .then(data => setPhotos(data))
             .catch(error => console.error('Error fetching photos:', error));
     }, [id]);
 
@@ -31,31 +26,31 @@ const PostDetailComponent = () => {
     }
 
     const handleApply = () => {
-        window.location.href = '/application/'+id;
+        window.location.href = '/application';
     };
 
     return (
         <div className="post-detail-container">
             <h1>{post.postTitle}</h1>
-            <p><strong>Car Brand:</strong> {post.carBrand}</p>
-            <p><strong>Car Model:</strong> {post.carModel}</p>
-            <p><strong>Car Year:</strong> {post.carYear}</p>
-            <p><strong>Car Color:</strong> {post.carColor}</p>
-            <p><strong>Car Engine:</strong> {post.carEngine}</p>
-            <p><strong>Car Gear:</strong> {post.carGear}</p>
-            <p><strong>Car Fuel Type:</strong> {post.carFuelType}</p>
-            <p><strong>Credit Months:</strong> {post.creditMonthCount}</p>
-            <p><strong>Amount:</strong> ${post.amount}</p>
-            <p><strong>Procents:</strong> {post.procents}%</p>
-            <p><strong>Description:</strong> {post.carContent}</p>
+            <p><strong> Brendi:</strong> {post.carBrand}</p>
+            <p><strong> Modeli:</strong> {post.carModel}</p>
+            <p><strong> Yili:</strong> {post.carYear}</p>
+            <p><strong> Rangi:</strong> {post.carColor}</p>
+            <p><strong> Motor:</strong> {post.carEngine}</p>
+            <p><strong> Karobka:</strong> {post.carGear}</p>
+            <p><strong> Yoqilg'i:</strong> {post.carFuelType}</p>
+            <p><strong> Kreditga oylar:</strong> {post.creditMonthCount}</p>
+            <p><strong> Narxi:</strong>  UZS {post.amount}</p>
+            <p><strong> Foizlari:</strong> {post.procents}%</p>
+            <p><strong> Tafsivi :</strong> {post.carContent}</p>
 
             <div className="photo-gallery">
-                {photos.map((photoUrl, index) => (
-                    <img key={index} src={photoUrl} alt={`Photo ${index + 1}`} className="post-photo" />
+                {photos.map((photo, index) => (
+                    <img key={index} src={`http://localhost:8080/images/${photo.id}`} alt={`Photo ${index + 1}`} className="post-photo"/>
                 ))}
             </div>
 
-            <button onClick={handleApply}>Ariza berish</button>
+            <button onClick={handleApply}>Подать заявку на авто</button>
         </div>
     );
 };
