@@ -1,40 +1,46 @@
 import React, { useState } from 'react';
-import './Calculator.css'; // Импортируем CSS-файл для стилизации
-
+import './Calculator.css';
 
 const Calculator = () => {
     const [loanAmount, setLoanAmount] = useState('');
     const [loanTerm, setLoanTerm] = useState('');
     const [interestRate, setInterestRate] = useState('');
     const [loanType, setLoanType] = useState('annuity');
+    const [downPayment, setDownPayment] = useState('');
     const [insuranceCosts, setInsuranceCosts] = useState('0');
     const [collateralValuationCosts, setCollateralValuationCosts] = useState('0');
     const [otherCosts, setOtherCosts] = useState('0');
     const [results, setResults] = useState([]);
-    const [totalPayment, setTotalPayment] = useState(0); // Добавляем состояние для общей суммы платежей
-    const [ktq, setKtq] = useState(0); // Добавляем состояние для общей суммы платежей (KTQ)
+    const [totalPayment, setTotalPayment] = useState(0);
+    const [ktq, setKtq] = useState(0);
 
     const calculateLoan = () => {
-        // Парсим введенные значения в числа
         const amount = parseFloat(loanAmount.replace(/\s/g, '').replace(',', '.'));
         const term = parseInt(loanTerm);
         const rate = parseFloat(interestRate.replace(',', '.'));
+        const initialDownPayment = parseFloat(downPayment.replace(/\s/g, '').replace(',', '.')); // Парсим первоначальный взнос
 
-        // Выполняем расчет кредита
-        let currentAmount = amount;
+        if (initialDownPayment >= amount) {
+            alert("Первоначальный взнос не может превышать сумму кредита.");
+            return;
+        }
+
+        const principalAmount = amount - initialDownPayment;
+
+        let currentAmount = principalAmount;
         let totalInterest = 0;
-        let totalPayment = 0; // Используем локальную переменную для общей суммы платежей внутри функции
+        let totalPayment = 0;
         const monthlyInterestRate = rate / 12 / 100;
-        const monthlyPayment = loanType === 'annuity' ? calculateAnnuityPayment(amount, monthlyInterestRate, term) : amount / term;
+        const monthlyPayment = loanType === 'annuity' ? calculateAnnuityPayment(principalAmount, monthlyInterestRate, term) : principalAmount / term;
 
         const results = [];
 
         for (let i = 1; i <= term; i++) {
             const interest = currentAmount * monthlyInterestRate;
             totalInterest += interest;
-            const monthlyInsuranceCosts = parseFloat(insuranceCosts) / term;
-            const monthlyCollateralValuationCosts = parseFloat(collateralValuationCosts) / term;
-            const monthlyOtherCosts = parseFloat(otherCosts) / term;
+            const monthlyInsuranceCosts = parseFloat(insuranceCosts.replace(/\s/g, '')) / term;
+            const monthlyCollateralValuationCosts = parseFloat(collateralValuationCosts.replace(/\s/g, '')) / term;
+            const monthlyOtherCosts = parseFloat(otherCosts.replace(/\s/g, '')) / term;
             const payment = monthlyPayment + monthlyInsuranceCosts + monthlyCollateralValuationCosts + monthlyOtherCosts;
             const principal = payment - interest;
             totalPayment += payment;
@@ -53,19 +59,16 @@ const Calculator = () => {
         }
 
         setResults(results);
-        setTotalPayment(totalPayment); // Обновляем состояние общей суммы платежей
+        setTotalPayment(totalPayment);
 
-        // Вычисляем KTQ
-        const ktqValue = totalPayment - amount;
+        const ktqValue = totalPayment - principalAmount;
         setKtq(ktqValue);
     };
 
-    // Функция для расчета ежемесячного аннуитетного платежа
     const calculateAnnuityPayment = (principal, monthlyRate, term) => {
         return principal * (monthlyRate + monthlyRate / (Math.pow(1 + monthlyRate, term) - 1));
     };
 
-    // Функция для получения следующей даты
     const getNextMonthDate = (monthsToAdd) => {
         const today = new Date();
         today.setMonth(today.getMonth() + monthsToAdd);
@@ -101,6 +104,12 @@ const Calculator = () => {
                         <option value="annuity">Annuitet</option>
                         <option value="simple">Prostoy</option>
                     </select>
+                </div>
+
+                <div className="form-control">
+                    <label htmlFor="downPayment">Dastlabki to'lov (so'm):</label>
+                    <input type="text" id="downPayment" name="downPayment" value={downPayment}
+                           onChange={(e) => setDownPayment(e.target.value)}/>
                 </div>
 
                 <div className="form-control">
@@ -147,9 +156,9 @@ const Calculator = () => {
                             <td>{item.number}</td>
                             <td>{item.date}</td>
                             <td>{item.principal}</td>
-                            <td>-</td>
-                            <td>{item.payment}</td>
-                            <td>-</td>
+                            <td>{item.commission}</td>
+                            <td>{item.thirdPartyCosts}</td>
+                            <td>{item.others}</td>
                             <td>{item.interest}</td>
                             <td>{item.payment}</td>
                             <td>{item.balance}</td>

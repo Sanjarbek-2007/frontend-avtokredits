@@ -66,6 +66,17 @@ button:hover {
 table {
     width: 100%; /* Растягиваем таблицу на всю ширину контейнера */
     border-collapse: collapse;
+
+}
+
+th, td {
+    padding: 10px; /* Увеличили внутренний отступ ячеек таблицы */
+    border: 1px solid #ccc;
+    text-align: center;
+}
+
+th {
+    background-color: #f0f0f0; /* Цвет фона для заголовков таблицы */
 }
 
 th, td {
