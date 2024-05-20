@@ -1,8 +1,7 @@
 import React from 'react';
-import './PaymentTimeTable.css'
+import './PaymentTimeTable.css';
 
-const PaymentTimeTable = () => {
-
+const PaymentTimeTable = ({ schedule }) => {
     const back = () => {
         window.location.href = '/';
     };
@@ -19,16 +18,13 @@ const PaymentTimeTable = () => {
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>01/06/2024</td>
-                    <td>$1000</td>
-                    <td>To'landi</td>
-                </tr>
-                <tr>
-                    <td>01/07/2024</td>
-                    <td>$1000</td>
-                    <td>To'lashni kutmoqda</td>
-                </tr>
+                {schedule.map((item, index) => (
+                    <tr key={index}>
+                        <td>{item.date}</td>
+                        <td>{item.payment}</td>
+                        <td>{item.balance > 0 ? "To'lashni kutmoqda" : "To'landi"}</td>
+                    </tr>
+                ))}
                 </tbody>
             </table>
             <button className="back-button" onClick={back}>Orqaga</button>

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import {jwtDecode} from 'jwt-decode';
 import './Application.css';
 
 const ApplicationPage = () => {
@@ -14,7 +13,6 @@ const ApplicationPage = () => {
         loanAmount: ''
     });
 
-    const [applications, setApplications] = useState([]);
     const [error, setError] = useState(null);
 
     useEffect(() => {
@@ -26,9 +24,11 @@ const ApplicationPage = () => {
                 }
                 const carDetails = await response.json();
                 setFormData({
-                    ...formData,
-                    car: carDetails.carBrand + ' ' + carDetails.carModel,
-                    car_Price: carDetails.amount
+                    car: `${carDetails.carBrand} ${carDetails.carModel}`,
+                    car_Price: carDetails.amount,
+                    fullName: '',
+                    phone: '',
+                    loanAmount: ''
                 });
             } catch (error) {
                 setError(error.message);
@@ -38,17 +38,13 @@ const ApplicationPage = () => {
         fetchCarDetails();
     }, [id]);
 
-
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const form = e.target;
-
-        const data = new FormData(form);
-        data.append('customer', formData.fullName);
+        const data = new FormData();
+        Object.keys(formData).forEach(key => data.append(key, formData[key]));
 
         try {
             const token = localStorage.getItem('accessToken');
-
             const response = await fetch('http://localhost:8080/apps/add', {
                 method: 'POST',
                 body: data,
@@ -61,8 +57,14 @@ const ApplicationPage = () => {
                 throw new Error('Failed to submit application');
             }
 
-            form.reset();
             alert('Application submitted successfully');
+            setFormData({
+                fullName: '',
+                phone: '',
+                car: '',
+                car_Price: '',
+                loanAmount: ''
+            });
         } catch (error) {
             setError(error.message);
         }
@@ -83,35 +85,22 @@ const ApplicationPage = () => {
                 {error && <p className="error">{error}</p>}
                 <form id="applicationForm" onSubmit={handleSubmit}>
                     <label htmlFor="fullName">To'liq Ismingiz:</label>
-                    <input type="text" id="fullName" name="fullName" value={formData.fullName} onChange={handleChange} required/>
+                    <input type="text" id="fullName" name="fullName" value={formData.fullName} onChange={handleChange} required />
 
                     <label htmlFor="phone">Telefon raqami:</label>
-                    <input type="text" id="phone" name="phone" value={formData.phone} onChange={handleChange} required/>
+                    <input type="text" id="phone" name="phone" value={formData.phone} onChange={handleChange} required />
 
                     <label htmlFor="car">Avtomobil:</label>
-                    <input type="text" id="car" name="car" value={formData.car} readOnly/>
+                    <input type="text" id="car" name="car" value={formData.car} readOnly />
 
                     <label htmlFor="carPrice">Avtomobil Narxi:</label>
-                    <input type="number" id="carPrice" name="carPrice" value={formData.car_Price} readOnly/>
+                    <input type="number" id="carPrice" name="carPrice" value={formData.car_Price} onChange={handleChange} required />
 
                     <label htmlFor="loanAmount">Kredit Mablag'ini Kiriting:</label>
-                    <input type="text" id="loanAmount" name="loanAmount" value={formData.loanAmount} onChange={handleChange} required/>
+                    <input type="text" id="loanAmount" name="loanAmount" value={formData.loanAmount} onChange={handleChange} required />
 
-                    <input type="submit" value="Arizani Yuborish"/>
+                    <input type="submit" value="Arizani Yuborish" />
                 </form>
-            </div>
-
-            <div className="container">
-                <h1>Arizalar</h1>
-                {error && <p className="error">{error}</p>}
-                <ul>
-                    {applications.map(application => (
-                        <li key={application.id}>
-                            <h2>{application.title}</h2>
-                            <p>{application.description}</p>
-                        </li>
-                    ))}
-                </ul>
             </div>
         </div>
     );
