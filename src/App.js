@@ -142,7 +142,7 @@ const App = () => {
 
           <Routes>
             <Route path="/payments" element={<PaymentTimeTable/>}/>
-            <Route path="/posts/:id" element={<PostDetailComponent/>}/>
+            <Route path="/post/:id" element={<PostDetailComponent/>}/>
             <Route path="/cars" element={<PostsComponent/>}/>
             {isLoggedIn && role === 'ADMIN' && (
                 <Route path="/upload" element={<Upload />} />

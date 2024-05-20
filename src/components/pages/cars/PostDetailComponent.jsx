@@ -60,7 +60,8 @@ const PostDetailComponent = () => {
                 <p><strong>Foizlari:</strong> {post.procents}%</p>
                 <p><strong>Tafsivi:</strong> {post.carContent}</p>
             </div>
-            <button className="apply-button" onClick={handleApply}>Подать заявку на авто</button>
+            <button className="apply-button" onClick={handleApply}>Ariza qoldirish
+            </button>
         </div>
     );
 };
