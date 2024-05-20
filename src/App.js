@@ -11,6 +11,7 @@ import ApplicationPage from "./components/pages/applications/ApplicationPage";
 import './components/pages/home/Home.css';
 import logo from "./components/images/logo.png";
 import PostsComponent from "./components/pages/cars/PostsComponent";
+import PostDetailComponent from "./components/pages/cars/PostDetailComponent";
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -188,7 +189,7 @@ const App = () => {
         <BrowserRouter>
           <Routes>
             <Route path="/payments" element={<PaymentTimeTable/>}/>
-            {/*<Route path="/cars" element={<Post/>}/>*/}
+            {/*<Route path="/cars/" element={<PostDetailComponent/>}/>*/}
             <Route path="/cars" element={<PostsComponent/>}/>
             {isLoggedIn && role ==='ADMIN' &&(
                 <Route path="/upload" element={<Upload />} />

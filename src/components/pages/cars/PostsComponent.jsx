@@ -32,7 +32,7 @@ const PostsComponent = () => {
                         <p><strong>Credit Months:</strong> {post.creditMonthCount}</p>
                         <p><strong>Amount:</strong> ${post.amount}</p>
                         <p><strong>Procents:</strong> {post.procents}%</p>
-                        <Link to={`/post/${post.id}`} className="learn-more-button">Learn More</Link>
+                        <Link to={`/cars/${post.id}`} className="learn-more-button">Learn More</Link>
                     </div>
                 );
             })}
