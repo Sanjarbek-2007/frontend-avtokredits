@@ -11,12 +11,15 @@ import './components/pages/home/Home.css';
 import logo from "./components/images/logo.png";
 import PostsComponent from "./components/pages/cars/PostsComponent";
 import PostDetailComponent from "./components/pages/cars/PostDetailComponent";
+import Home from "./components/pages/home/Home";
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [username, setUsername] = useState('');
   const [role, setRole] = useState('');
   const [showAdditionalMenu, setShowAdditionalMenu] = useState(false);
+  const [carImages, setImages] = useState([]);
+
 
   useEffect(() => {
     const token = localStorage.getItem('accessToken');
@@ -130,7 +133,7 @@ const App = () => {
               <div className="additional-menu-container">
                 <div className="additional-menu">
                   <button className="additional-menu-button" onClick={showAllPaymentTime}>To'lov vaqti</button>
-                 {isLoggedIn && role === 'ADMIN' && (
+                  {isLoggedIn && role === 'ADMIN' && (
                       <button className="additional-menu-button" onClick={openAddListingForm}>E'lon berish</button>
                   )}
                 </div>
@@ -140,20 +143,28 @@ const App = () => {
             {showAdditionalMenu ? "Menuni yopish" : "Menyuni ochish"}
           </button>
 
+          {/*<div className="menu-images">*/}
+          {/*  {images.map((image, index) => (*/}
+          {/*      <img key={index} src={image.src} alt={image.alt} className="menu-image"/>*/}
+          {/*  ))}*/}
+          {/*</div>*/}
+          <p className="large-text">Avto kredits mashinalari</p>
           <Routes>
+            <Route path="/" element={<Home setImages={setImages} />}/>
             <Route path="/payments" element={<PaymentTimeTable/>}/>
             <Route path="/post/:id" element={<PostDetailComponent/>}/>
             <Route path="/cars" element={<PostsComponent/>}/>
             {isLoggedIn && role === 'ADMIN' && (
-                <Route path="/upload" element={<Upload />} />
+                <Route path="/upload" element={<Upload/>}/>
             )}
             <Route path="/about" element={<About/>}/>
             <Route path="/calculator" element={<Calculator/>}/>
             <Route path="/auth" element={<Auth onAuth={handleAuth}/>}/>
             <Route path="/success" element={<AuthSuccess/>}/>
-            <Route path="/application" element={<ApplicationPage username={username} role={role} />} />
+            <Route path="/application" element={<ApplicationPage username={username} role={role}/>}/>
           </Routes>
         </div>
+
       </BrowserRouter>
   );
 };

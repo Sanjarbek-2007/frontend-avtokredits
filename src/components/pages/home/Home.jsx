@@ -1,100 +1,53 @@
-// import React, { useState } from 'react';
-// import ReactDOM from 'react-dom';
-// import './Home.css';
-// import logo from '../../images/logo.png';
-// import About from "../about/About";
-// const HomePage = () => {
-//     const [favorites, setFavorites] = useState([]);
-//
-//     const showCompanyInfo = () => {
-//         const companyInfoPopup = document.getElementById("companyInfo");
-//         companyInfoPopup.innerHTML = '';
-//         ReactDOM.render(<About />, companyInfoPopup);
-//         companyInfoPopup.style.display = "block";
-//     };
-//
-//     const showAllCars = () => {
-//         // Function to show all cars
-//     };
-//
-//
-//
-//     const searchImages = () => {
-//         const input = document.querySelector('.search-input').value.toLowerCase();
-//         const imageContainers = document.querySelectorAll('.image-container');
-//         imageContainers.forEach(container => {
-//             const altText = container.querySelector('img').alt.toLowerCase();
-//             if (altText.includes(input)) {
-//                 container.style.display = "inline-block";
-//             } else {
-//                 container.style.display = "none";
-//             }
-//         });
-//     };
-//
-//     const showFavorites = () => {
-//         const imageContainers = document.querySelectorAll('.image-container');
-//         const backButton = document.getElementById('backButton');
-//         const favoriteIds = favorites.map(favorite => favorite.id);
-//
-//         imageContainers.forEach(container => {
-//             const imageNumber = parseInt(container.id.replace('imageContainer', ''), 10);
-//             if (favoriteIds.includes(imageNumber)) {
-//                 container.style.display = "inline-block";
-//             } else {
-//                 container.style.display = "none";
-//             }
-//         });
-//
-//         backButton.style.display = "inline-block";
-//     };
-//
-//     const showAllPaymentTime = () => {
-//     };
-//
-//     const openAddListingForm = () => {
-//         const modal = document.getElementById('addListingModal');
-//         modal.style.display = 'block';
-//     };
-//
-//     const showAll = () => {
-//         const imageContainers = document.querySelectorAll('.image-container');
-//         const backButton = document.getElementById('backButton');
-//         imageContainers.forEach(container => {
-//             container.style.display = "inline-block";
-//         });
-//         backButton.style.display = "none";
-//     };
-//
-//
-//     return (
-//         <div className="App">
-//             <div className="navbar">
-//                 {/*<button className="navbar-logo">*/}
-//                 {/*    <img src={logo} alt="Mashina Galereya"/>*/}
-//                 {/*</button>*/}
-//                 <a href="#" className="navbar-logo"><img src={logo} alt="Mashina Galereya"/></a>
-//                 <button className="navbar-button" onClick={showCompanyInfo}>AvtoKredits haqida ko'proq</button>
-//                 <button className="navbar-button" onClick={showAllCars}>AvtoKredits Mashinalar</button>
-//                 <button className="navbar-button" onClick={showFavorites}>Sevimlilar</button>
-//                 <button className="navbar-button" onClick={showAllPaymentTime}>To'lov vaqti</button>
-//                 <button className="navbar-button back-button" id="backButton" onClick={showAll}>Orqaga</button>
-//                 <button className="navbar-button" onClick={openAddListingForm}>E'lon berish</button>
-//                 <div className="navbar-search">
-//                     <input type="text" className="search-input" placeholder="" onInput={searchImages}/>
-//                     <a href="Auth" className="navbar-login-button">Login</a>
-//                     <a href="http://localhost:3000/auth/" className="navbar-signup-button">Signup</a>
-//                 </div>
-//             </div>
-//             <div id="companyInfo"></div>
-//             <div id="addListingModal" className="modal">
-//                 <div className="modal-content">
-//                     <span className="close" onClick={() => document.getElementById('addListingModal').style.display = 'none'}>&times;</span>
-//                     <textarea placeholder="Add your listing here..."></textarea>
-//                 </div>
-//             </div>
-//         </div>
-//     );
-// };
-//
-// export default HomePage;
+import React, { useState, useEffect } from 'react';
+import './Home.css'; // Import CSS file for styles
+import car1 from '../../images/1.jpg'; // Import car images
+import car2 from '../../images/2.jpg';
+import car3 from '../../images/3.jpg';
+
+const HomePage = () => {
+    // Define your car images
+    const carImages = [
+        { src: car1, alt: 'Машина 1' },
+        { src: car2, alt: 'Машина 2' },
+        { src: car3, alt: 'Машина 3' },
+    ];
+
+    const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+    // Function to switch to the next image
+    const nextImage = () => {
+        setCurrentImageIndex((prevIndex) => (prevIndex + 1) % carImages.length);
+    };
+
+    useEffect(() => {
+        // Automatically switch images every 3 seconds
+        const intervalId = setInterval(nextImage, 3000);
+        return () => clearInterval(intervalId);
+    }, []);
+
+    return (
+        <div className="homepage-container">
+            {/* Container for the car images */}
+            <div className="car-container">
+                {carImages.map((image, index) => (
+                    <img
+                        key={index}
+                        src={image.src}
+                        alt={image.alt}
+                        className={index === currentImageIndex ? 'active' : ''}
+                    />
+                ))}
+            </div>
+
+            {/* Company's info */}
+            <div className="company-info">
+                <p>Company Name</p>
+                <p>Address: XYZ Street, ABC City</p>
+                <p>Phone: 123-456-7890</p>
+                <p>Email: info@example.com</p>
+            </div>
+        </div>
+    );
+};
+
+export default HomePage;
