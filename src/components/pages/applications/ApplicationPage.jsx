@@ -1,107 +1,143 @@
-import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import './Application.css';
+import React, { useState } from 'react';
+import axios from 'axios';
+import { useLocation } from "react-router-dom";
 
 const ApplicationPage = () => {
-    const { id } = useParams();
+    const location = useLocation();
+
+    // Extract the postId from the URL
+    const postId = new URLSearchParams(location.search).get('id');
 
     const [formData, setFormData] = useState({
         fullName: '',
         phone: '',
-        car: '',
-        car_Price: '',
-        loanAmount: ''
+        title: '',
+        description: '',
+        postId: 23,
     });
-
-    const [error, setError] = useState(null);
-
-    useEffect(() => {
-        const fetchCarDetails = async () => {
-            try {
-                const response = await fetch(`/posts/${id}`);
-                if (!response.ok) {
-                    throw new Error('Failed to fetch car details');
-                }
-                const carDetails = await response.json();
-                setFormData({
-                    car: `${carDetails.carBrand} ${carDetails.carModel}`,
-                    car_Price: carDetails.amount,
-                    fullName: '',
-                    phone: '',
-                    loanAmount: ''
-                });
-            } catch (error) {
-                setError(error.message);
-            }
-        };
-
-        fetchCarDetails();
-    }, [id]);
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        const data = new FormData();
-        Object.keys(formData).forEach(key => data.append(key, formData[key]));
-
-        try {
-            const token = localStorage.getItem('accessToken');
-            const response = await fetch('http://localhost:8080/apps/add', {
-                method: 'POST',
-                body: data,
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            });
-
-            if (!response.ok) {
-                throw new Error('Failed to submit application');
-            }
-
-            alert('Application submitted successfully');
-            setFormData({
-                fullName: '',
-                phone: '',
-                car: '',
-                car_Price: '',
-                loanAmount: ''
-            });
-        } catch (error) {
-            setError(error.message);
-        }
-    };
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData({
-            ...formData,
-            [name]: value
-        });
+        setFormData({ ...formData, [name]: value });
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await fetch('http://localhost:8080/apps/add', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            const data = await response.json();
+            console.log('Form submitted successfully:', data);
+            // Optionally, you can redirect to another page or show a success message
+            window.location = '/success';
+        } catch (error) {
+            console.error('Error submitting the form:', error);
+            // Handle the error appropriately, e.g., show an error message to the user
+        }
+    };
+    const formStyles = {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        maxWidth: '500px',
+        margin: '0 auto',
+        padding: '20px',
+        border: '1px solid #ccc',
+        borderRadius: '10px',
+        backgroundColor: '#f9f9f9',
+    };
+
+    const inputStyles = {
+        width: '100%',
+        padding: '10px',
+        margin: '10px 0',
+        border: '1px solid #ccc',
+        borderRadius: '5px',
+    };
+
+    const buttonStyles = {
+        padding: '10px 20px',
+        backgroundColor: '#007bff',
+        color: '#fff',
+        border: 'none',
+        borderRadius: '5px',
+        cursor: 'pointer',
+    };
+
+    const labelStyles = {
+        alignSelf: 'flex-start',
+        marginBottom: '5px',
     };
 
     return (
-        <div>
-            <div className="container">
-                <h1>Avtokreditlar Uchun Ariza Formasi</h1>
-                {error && <p className="error">{error}</p>}
-                <form id="applicationForm" onSubmit={handleSubmit}>
-                    <label htmlFor="fullName">To'liq Ismingiz:</label>
-                    <input type="text" id="fullName" name="fullName" value={formData.fullName} onChange={handleChange} required />
-
-                    <label htmlFor="phone">Telefon raqami:</label>
-                    <input type="text" id="phone" name="phone" value={formData.phone} onChange={handleChange} required />
-
-                    <label htmlFor="car">Avtomobil:</label>
-                    <input type="text" id="car" name="car" value={formData.car} readOnly />
-
-                    <label htmlFor="carPrice">Avtomobil Narxi:</label>
-                    <input type="number" id="carPrice" name="carPrice" value={formData.car_Price} onChange={handleChange} required />
-
-                    <label htmlFor="loanAmount">Kredit Mablag'ini Kiriting:</label>
-                    <input type="text" id="loanAmount" name="loanAmount" value={formData.loanAmount} onChange={handleChange} required />
-
-                    <input type="submit" value="Arizani Yuborish" />
-                </form>
-            </div>
+        <div style={formStyles}>
+            <h1>Fill Form</h1>
+            <form onSubmit={handleSubmit} style={{ width: '100%' }}>
+                <div>
+                    <label style={labelStyles}>
+                        Full Name:
+                        <input
+                            type="text"
+                            name="fullName"
+                            value={formData.fullName}
+                            onChange={handleChange}
+                            required
+                            style={inputStyles}
+                        />
+                    </label>
+                </div>
+                <div>
+                    <label style={labelStyles}>
+                        Phone:
+                        <input
+                            type="text"
+                            name="phone"
+                            value={formData.phone}
+                            onChange={handleChange}
+                            required
+                            style={inputStyles}
+                        />
+                    </label>
+                </div>
+                <div>
+                    <label style={labelStyles}>
+                        Title:
+                        <input
+                            type="text"
+                            name="title"
+                            value={formData.title}
+                            onChange={handleChange}
+                            required
+                            style={inputStyles}
+                        />
+                    </label>
+                </div>
+                <div>
+                    <label style={labelStyles}>
+                        Description:
+                        <textarea
+                            name="description"
+                            value={formData.description}
+                            onChange={handleChange}
+                            required
+                            style={inputStyles}
+                        />
+                    </label>
+                </div>
+                <div>
+                    <button type="submit" style={buttonStyles}>Submit</button>
+                </div>
+            </form>
         </div>
     );
 };

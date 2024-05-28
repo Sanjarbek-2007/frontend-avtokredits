@@ -17,6 +17,7 @@ const Upload = () => {
         creditMonthCount: 0,
         amount: 0,
         procents: 0,
+        firstlyDeposit: 0,
     });
 
     const handleSubmit = async (e) => {
@@ -39,6 +40,7 @@ const Upload = () => {
         data.append('creditMonthCount', formData.creditMonthCount);
         data.append('amount', formData.amount);
         data.append('procents', formData.procents);
+        data.append('firstlyDeposit', formData.firstlyDeposit);
 
         try {
             // const token = localStorage.getItem('accessToken'); // Retrieve the JWT token from localStorage
@@ -120,6 +122,7 @@ const Upload = () => {
                 {renderInput('creditMonthCount', 'Kredit Muddati (oy)', 'number')}
                 {renderInput('amount', 'Summasi (SUM)', 'number')}
                 {renderInput('procents', 'Foizlar (%)', 'number')}
+                {renderInput('firstlyDeposit', 'Dastlabki To\'lov', 'number')}
                 <button onClick={handleSubmit}>Mashinani Yuklash</button>
             </form>
         </div>
