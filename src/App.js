@@ -69,7 +69,11 @@ const App = () => {
   };
 
   const showAllApplications = () => {
-    window.location.href = '/applications';
+    if (role === 'ADMIN') {
+      window.location.href = '/applications';
+    } else {
+      alert('Faqat administratorlar bu joyni ko\'ra oladi');
+    }
   }
 
   const showAllCars = () => {
@@ -141,7 +145,9 @@ const App = () => {
                   {isLoggedIn && role === 'ADMIN' && (
                       <button className="additional-menu-button" onClick={openAddListingForm}>E'lon berish</button>
                   )}
-                  <button className="additional-menu-button" onClick={showAllApplications}>Arizalar</button>
+                  {isLoggedIn && role === 'ADMIN' && (
+                      <button className="additional-menu-button" onClick={showAllApplications}>Arizalar</button>
+                  )}
                 </div>
               </div>
           )}
