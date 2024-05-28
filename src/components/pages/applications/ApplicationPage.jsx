@@ -1,19 +1,17 @@
 import React, { useState } from 'react';
-import axios from 'axios';
-import { useLocation } from "react-router-dom";
+import { useParams } from 'react-router-dom';
 
 const ApplicationPage = () => {
-    const location = useLocation();
-
     // Extract the postId from the URL
-    const postId = new URLSearchParams(location.search).get('id');
+    const { id } = useParams();
 
+    // Initialize formData with the postId
     const [formData, setFormData] = useState({
         fullName: '',
         phone: '',
         title: '',
         description: '',
-        postId: 23,
+        postId: id,
     });
 
     const handleChange = (e) => {
@@ -45,6 +43,7 @@ const ApplicationPage = () => {
             // Handle the error appropriately, e.g., show an error message to the user
         }
     };
+
     const formStyles = {
         display: 'flex',
         flexDirection: 'column',

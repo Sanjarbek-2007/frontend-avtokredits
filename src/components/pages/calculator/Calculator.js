@@ -21,7 +21,7 @@ const Calculator = () => {
         const initialDownPayment = parseFloat(downPayment.replace(/\s/g, '').replace(',', '.')); // Парсим первоначальный взнос
 
         if (initialDownPayment >= amount) {
-            alert("Первоначальный взнос не может превышать сумму кредита.");
+            alert("Dastlabki to'lov asosiy summadan ko'm bo'lshi mumkin emas.");
             return;
         }
 

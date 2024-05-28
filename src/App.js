@@ -173,7 +173,7 @@ const App = () => {
             <Route path="/auth" element={<Auth onAuth={handleAuth}/>}/>
             <Route path="/success" element={<AuthSuccess/>}/>
             <Route path="/applications" element={<Applications username={username} role={role}/>}/>
-            <Route path="/application" element={<ApplicationPage username={username} role={role}/>}/>
+            <Route path="/applications/:id" element={<ApplicationPage username={username} role={role}/>}/>
           </Routes>
         </div>
 

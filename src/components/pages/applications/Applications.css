@@ -1,93 +1,66 @@
-/* Applications.css */
-
 .applications-container {
-    font-family: Arial, sans-serif;
-    margin: 20px auto;
-    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
     padding: 20px;
-    background-color: #fdfdfd;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
 }
 
-h1 {
-    color: #333;
-    font-size: 28px;
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.application-list {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-}
-
-.application-item {
-    padding: 15px;
-    margin: 10px 0;
-    background-color: #e8f0fe;
-    cursor: pointer;
-    border-radius: 8px;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    font-size: 18px;
-    color: #333;
-}
-
-.application-item:hover {
-    background-color: #cfd8ff;
-    transform: translateY(-2px);
-}
-
-/* Modal styling */
-.modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5);
+.application-card {
     display: flex;
     align-items: center;
-    justify-content: center;
-    z-index: 1000;
-}
-
-.modal-content {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    max-width: 600px;
-    width: 90%;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-    position: relative;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    overflow: hidden;
+    width: 100%;
     text-align: center;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+    padding: 20px;
 }
 
-.modal-content h2 {
-    margin: 0 0 10px;
-    font-size: 24px;
-    color: #222;
+.application-card:hover {
+    transform: scale(1.02);
 }
 
-.modal-content p {
-    margin: 0;
-    font-size: 16px;
-    color: #555;
+.application-details {
+    flex: 1;
+    padding-right: 20px;
 }
 
-.close-button {
-    margin-top: 20px;
-    padding: 10px 20px;
-    background-color: #ff5c5c;
-    color: white;
+.application-details h2,
+.application-details h3,
+.application-details p {
+    margin: 10px 0;
+}
+
+.application-button {
+    background: none;
     border: none;
-    border-radius: 5px;
     cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s ease;
+    padding: 0;
 }
 
-.close-button:hover {
-    background-color: #e60000;
+.application-button img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+}
+
+/* Conditional styles */
+.application-card.active {
+    background-color: green;
+    color: white;
+}
+
+.application-card.accepted {
+    background-color: white;
+    border-bottom: 3px solid green;
+}
+
+.application-card.closed {
+    background-color: gray;
+    color: white;
 }
