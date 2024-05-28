@@ -51,3 +51,19 @@
 .learn-more-button:hover {
     background-color: #0056b3;
 }
+
+.delete-button {
+    display: inline-block;
+    margin-top: 16px;
+    padding: 2px 8px;
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 5px;
+
+    transition: background-color 0.3s ease;
+}
+
+.delete-button:hover {
+    background-color: #c82333;
+}
