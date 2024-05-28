@@ -57,10 +57,19 @@
 
 .application-card.accepted {
     background-color: white;
-    border-bottom: 3px solid green;
+    border-bottom: 10px solid green;
 }
 
 .application-card.closed {
     background-color: gray;
-    color: white;
+    border-bottom: 10px solid red;
 }
+
+/* Добавляем классы для скрытия и отображения кнопок */
+.hidden {
+    display: none;
+}
+.visible {
+    display: inline-block; /* или любое другое значение для отображения */
+}
+

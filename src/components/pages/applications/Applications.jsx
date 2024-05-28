@@ -9,7 +9,6 @@ const Applications = () => {
         fetch('http://localhost:8080/apps')
             .then(response => response.json())
             .then(data => {
-                // Sort the applications
                 const sortedApplications = data.sort((a, b) => {
                     if (a.post.isActive && !b.post.isActive) return -1;
                     if (!a.post.isActive && b.post.isActive) return 1;
@@ -22,13 +21,64 @@ const Applications = () => {
             .catch(error => console.error('Error fetching posts:', error));
     }, []);
 
+    const handleAccept = (id) => {
+        fetch(`http://localhost:8080/apps/${id}/accept`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({isAccepted: true})
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to accept application');
+                }
+                // Обновляем состояние applications после успешного обновления на сервере
+                setApplications(prevApplications => {
+                    return prevApplications.map(application => {
+                        if (application.id === id) {
+                            return {...application, isAccepted: true};
+                        }
+                        return application;
+                    });
+                });
+            })
+            .catch(error => console.error('Error accepting application:', error));
+    };
+
+    const handleClosed = (id) => {
+        fetch(`http://localhost:8080/apps/${id}/close`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({isAccepted: false})
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to accept application');
+                }
+                // Обновляем состояние applications после успешного обновления на сервере
+                setApplications(prevApplications => {
+                    return prevApplications.map(application => {
+                        if (application.id === id) {
+                            return {...application, isAccepted: false, post: {...application.post, isActive: false}};
+                        }
+                        return application;
+                    });
+                });
+            })
+            .catch(error => console.error('Error rejecting application:', error));
+    };
+
+
+
     return (
         <div className="applications-container">
             {applications.map(application => {
-                const { post, isAccepted, post: { isActive } } = application;
-                const photoUrl =  `http://localhost:8080/images/${post.id}`; // Add a default image URL if no photo exists
+                const {id, post, isAccepted, post: {isActive}} = application;
+                const photoUrl = `http://localhost:8080/images/${post.id}`;
 
-                // Determine the class name based on the conditions
                 let className = 'application-card';
                 if (isAccepted) {
                     className += ' accepted';
@@ -39,16 +89,24 @@ const Applications = () => {
                 }
 
                 return (
-                    <div key={application.id} className={className}>
+                    <div key={id} className={className}>
                         <div className="application-details">
                             <h2>{application.title || 'Untitled'}</h2>
                             <h3>{application.fullName}</h3>
                             <h3>{application.phone}</h3>
                             <p>{application.description}</p>
                         </div>
+                        <div className="application-buttons">
+                            {isActive && !isAccepted && (
+                                <>
+                                    <button onClick={() => handleAccept(id)} className="accept-button">&#10004;</button>
+                                    <button onClick={() => handleClosed(id)} className="close-button">&#10006;</button>
+                                </>
+                            )}
+                        </div>
                         <Link to={`/post/${application.post.id}`}>
                             <button className="application-button">
-                                <img src={photoUrl}  title={application.title} />
+                                <img src={photoUrl} title={application.title}/>
                             </button>
                         </Link>
                     </div>
@@ -56,6 +114,7 @@ const Applications = () => {
             })}
         </div>
     );
+
 }
 
 export default Applications;
