@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import {Link, useParams} from 'react-router-dom';
 import './PostDetailComponent.css';
 
 const PostDetailComponent = () => {
@@ -27,9 +27,6 @@ const PostDetailComponent = () => {
         setCurrentPhotoIndex((prevIndex) => (prevIndex - 1 + post.photoIds.length) % post.photoIds.length);
     };
 
-    const handleApply = () => {
-        window.location.href = '/application';
-    };
 
     return (
         <div className="post-detail-container">
@@ -60,7 +57,7 @@ const PostDetailComponent = () => {
                 <p><strong>Foizlari:</strong> {post.procents}%</p>
                 <p><strong>Tafsivi:</strong> {post.carContent}</p>
             </div>
-            <button className="apply-button" onClick={handleApply}>Подать заявку на авто</button>
+            <Link to={`/applications/${post.id}`} className="apply-button">Ariza qoldirish</Link>
         </div>
     );
 };

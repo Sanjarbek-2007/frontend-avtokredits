@@ -7,9 +7,9 @@ import car3 from '../../images/3.jpg';
 const HomePage = () => {
     // Define your car images
     const carImages = [
-        { src: car1, alt: 'Машина 1' },
-        { src: car2, alt: 'Машина 2' },
-        { src: car3, alt: 'Машина 3' },
+        { src: car1, alt: 'Avto 1' },
+        { src: car2, alt: 'Avto 2' },
+        { src: car3, alt: 'Avto 3' },
     ];
 
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -41,9 +41,8 @@ const HomePage = () => {
 
             {/* Company's info */}
             <div className="company-info">
-                <p>Company Name</p>
-                <p>Address: XYZ Street, ABC City</p>
-                <p>Phone: 123-456-7890</p>
+                <p>AvtoKredits </p>
+                <p>Phone: +998 99 819 21 41</p>
                 <p>Email: info@example.com</p>
             </div>
         </div>

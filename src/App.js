@@ -143,12 +143,7 @@ const App = () => {
             {showAdditionalMenu ? "Menuni yopish" : "Menyuni ochish"}
           </button>
 
-          {/*<div className="menu-images">*/}
-          {/*  {images.map((image, index) => (*/}
-          {/*      <img key={index} src={image.src} alt={image.alt} className="menu-image"/>*/}
-          {/*  ))}*/}
-          {/*</div>*/}
-          <p className="large-text">Avto kredits mashinalari</p>
+
           <Routes>
             <Route path="/" element={<Home setImages={setImages} />}/>
             <Route path="/payments" element={<PaymentTimeTable/>}/>
@@ -161,7 +156,8 @@ const App = () => {
             <Route path="/calculator" element={<Calculator/>}/>
             <Route path="/auth" element={<Auth onAuth={handleAuth}/>}/>
             <Route path="/success" element={<AuthSuccess/>}/>
-            <Route path="/application" element={<ApplicationPage username={username} role={role}/>}/>
+            <Route path="/applications" element={<ApplicationPage username={username} role={role}/>}/>
+            <Route path="/applications/:id" element={<ApplicationPage username={username} role={role}/>}/>
           </Routes>
         </div>
 
