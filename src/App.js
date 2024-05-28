@@ -12,6 +12,7 @@ import logo from "./components/images/logo.png";
 import PostsComponent from "./components/pages/cars/PostsComponent";
 import PostDetailComponent from "./components/pages/cars/PostDetailComponent";
 import Home from "./components/pages/home/Home";
+import Applications from "./components/pages/applications/Applications";
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -66,6 +67,10 @@ const App = () => {
   const showAllPaymentTime = () => {
     window.location.href = '/payments';
   };
+
+  const showAllApplications = () => {
+    window.location.href = '/applications';
+  }
 
   const showAllCars = () => {
     window.location.href = '/cars';
@@ -136,6 +141,7 @@ const App = () => {
                   {isLoggedIn && role === 'ADMIN' && (
                       <button className="additional-menu-button" onClick={openAddListingForm}>E'lon berish</button>
                   )}
+                  <button className="additional-menu-button" onClick={showAllApplications}>Arizalar</button>
                 </div>
               </div>
           )}
@@ -143,7 +149,11 @@ const App = () => {
             {showAdditionalMenu ? "Menuni yopish" : "Menyuni ochish"}
           </button>
 
-
+          {/*<div className="menu-images">*/}
+          {/*  {images.map((image, index) => (*/}
+          {/*      <img key={index} src={image.src} alt={image.alt} className="menu-image"/>*/}
+          {/*  ))}*/}
+          {/*</div>*/}
           <Routes>
             <Route path="/" element={<Home setImages={setImages} />}/>
             <Route path="/payments" element={<PaymentTimeTable/>}/>
@@ -156,8 +166,8 @@ const App = () => {
             <Route path="/calculator" element={<Calculator/>}/>
             <Route path="/auth" element={<Auth onAuth={handleAuth}/>}/>
             <Route path="/success" element={<AuthSuccess/>}/>
-            <Route path="/applications" element={<ApplicationPage username={username} role={role}/>}/>
-            <Route path="/applications/:id" element={<ApplicationPage username={username} role={role}/>}/>
+            <Route path="/applications" element={<Applications username={username} role={role}/>}/>
+            <Route path="/application" element={<ApplicationPage username={username} role={role}/>}/>
           </Routes>
         </div>
 
