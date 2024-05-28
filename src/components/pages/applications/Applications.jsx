@@ -23,11 +23,7 @@ const Applications = () => {
 
     const handleAccept = (id) => {
         fetch(`http://localhost:8080/apps/${id}/accept`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({isAccepted: true})
+            method: 'PUT'
         })
             .then(response => {
                 if (!response.ok) {
@@ -48,11 +44,7 @@ const Applications = () => {
 
     const handleClosed = (id) => {
         fetch(`http://localhost:8080/apps/${id}/close`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({isAccepted: false})
+            method: 'PUT'
         })
             .then(response => {
                 if (!response.ok) {
@@ -94,7 +86,7 @@ const Applications = () => {
                             <h2>{application.title || 'Untitled'}</h2>
                             <h3>{application.fullName}</h3>
                             <h3>{application.phone}</h3>
-                            <p>{application.description}</p>
+                            <h3>{application.description}</h3>
                         </div>
                         <div className="application-buttons">
                             {isActive && !isAccepted && (

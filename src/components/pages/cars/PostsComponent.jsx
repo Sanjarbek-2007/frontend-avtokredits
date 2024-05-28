@@ -60,7 +60,7 @@ const PostsComponent = () => {
                     <p><strong>Car Brand:</strong> {post.carBrand}</p>
                     <p><strong>Car Model:</strong> {post.carModel}</p>
                     <p><strong>Credit Months:</strong> {post.creditMonthCount}</p>
-                    <p><strong>Amount:</strong> ${post.amount}</p>
+                    <p><strong>Amount:</strong> UZS {post.amount}</p>
                     <p><strong>Procents:</strong> {post.procents}%</p>
                     <Link to={`/post/${post.id}`} className="learn-more-button">Learn More</Link>
                     {isLoggedIn && role === 'ADMIN' && (
