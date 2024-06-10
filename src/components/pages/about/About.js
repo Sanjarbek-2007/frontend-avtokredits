@@ -31,9 +31,8 @@ const About = () => {
 
             <h2>Biz bilan bog'lanish</h2>
             <p>Agar savollaringiz bo'lsa yoki qo'llab-quvvat kerak bo'lsa, iltimos, bizga murojaat qiling:</p>
-            <p>Email: support@avtokreditlar.com</p>
-            <p>Telefon: (123) 456-7890</p>
-            <p>Manzil: chilonzor metro</p>
+            <p>Telefon: +998 99 819 21 41</p>
+            <p>Manzil: Chilonzor metro</p>
         </div>
     );
 }
